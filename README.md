@@ -66,7 +66,7 @@ and configure it as single node or HA as usual.
 
 > [!NOTE]
 > Even though Azimuth is being deployed in "apps-only" mode, `azimuth-ops` currently still assumes
-> the presence of an OpenStack cloud into which the Azimuth instance will be deployed.
+> the presence of an OpenStack cloud onto which the Azimuth instance will be deployed.
 
 Add the following configuration to the environment to disable all the cloud-based functionality
 and leave only the Kubernetes apps functionality:
@@ -143,11 +143,16 @@ with a default kubeconfig to use for deploying apps.
 To add a new tenancy, first copy [tenancies/example](./tenancies/example) and give it an
 appropriate name.
 
-Update the resources in [tenancies/kustomization.yaml](./tenancies/kustomization.yaml) to
+Update the `resources` in [tenancies/kustomization.yaml](./tenancies/kustomization.yaml) to
 include the new directory.
 
-Update the `namespace` in `kustomization.yaml` and `metadata.name` in `namespace.yaml` so that
-they reflect the name of the tenancy.
+Update the namespace in the following places to reflect the tenancy name:
+
+  * `metadata.name` in `namespace.yaml`
+  * `metadata.namespace` in `kubeconfig-secret.yaml`
+
+> [!WARNING]
+> It is important that the namespace matches in both these places.
 
 Finally, add the kubeconfig for the tenancy to `kubeconfig-secret.yaml` and seal it using the
 certificate we obtained earlier:
@@ -155,8 +160,8 @@ certificate we obtained earlier:
 ```sh
 kubeseal \
   --cert /path/to/cert \
-  --secret-file ./tenancies/$TENANCY/kubeconfig-secret.yaml \
-  --sealed-secret-file ./tenancies/$TENANCY/kubeconfig-secret-sealed.yaml
+  --secret-file ./tenancies/${TENANCY}/kubeconfig-secret.yaml \
+  --sealed-secret-file ./tenancies/${TENANCY}/kubeconfig-secret-sealed.yaml
 ```
 
 > [!CAUTION]
@@ -167,6 +172,8 @@ kubeseal \
 >
 > If you do accidentally commit an unsealed `kubeconfig-secret.yaml` to Git, you will need to
 > revoke the credentials and issue new credentials before updating and re-sealing the secret.
+
+Commit the new tenancy to the repository and allow Flux to roll it out.
 
 ## Configuring Flux
 

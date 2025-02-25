@@ -1,9 +1,5 @@
 ---
 
-# This MUST match the name in namespace.yaml
-# Make sure to prefix the namespace with az- as expected by Azimuth
-namespace: az-example
-
 resources:
   - ./namespace.yaml
   # We reference the sealed secret here
