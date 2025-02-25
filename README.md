@@ -151,6 +151,8 @@ We can then use this in a `kubeseal` command to seal the kubeconfig secret:
 ```sh
 kubeseal \
   --kubeconfig /path/to/kubeconfig \
+  --controller-namespace sealed-secrets-system \
+  --controller-name sealed-secrets \
   --secret-file ./tenancies/${TENANCY}/kubeconfig-secret.yaml \
   --sealed-secret-file ./tenancies/${TENANCY}/kubeconfig-secret-sealed.yaml
 ```
