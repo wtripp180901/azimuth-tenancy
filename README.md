@@ -130,8 +130,9 @@ Update the namespace in the following places to reflect the tenancy name:
 
 Finally, add the kubeconfig for the tenancy to `kubeconfig-secret.yaml` and seal it.
 
-To seal the secret, we must connect to the Azimuth Kubernetes cluster. Azimuth supports doing
-this by using the seed node as a SOCKS proxy.
+To seal the secret, we must connect to the Azimuth Kubernetes cluster to obtain the
+key that should be used to encrypt the data. Azimuth supports doing this by using the
+seed node as a SOCKS proxy.
 
 First, run the following in your Azimuth configuration repository:
 
@@ -146,7 +147,8 @@ source ./bin/activate my-env
 The output of the `kube-connect` command is a path to a `KUBECONFIG` file that can be used to
 connect to the cluster.
 
-We can then use this in a `kubeseal` command to seal the kubeconfig secret:
+We can then use this in a `kubeseal` command to seal the kubeconfig secret in such a way
+that only the Azimuth Kubernetes cluster can decrypt it and reveal the data:
 
 ```sh
 kubeseal \
