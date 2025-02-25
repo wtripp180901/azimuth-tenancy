@@ -1,0 +1,5 @@
+---
+
+# Add each template that you want to enable here
+resources:
+  - argocd.yaml

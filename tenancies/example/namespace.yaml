@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  # This MUST match the namespace in kustomization.yaml
+  # Make sure to prefix the namespace with az- as expected by Azimuth
+  name: az-example

@@ -1,0 +1,29 @@
+---
+apiVersion: apps.azimuth-cloud.io/v1alpha1
+kind: AppTemplate
+metadata:
+  name: argocd
+  # Access-control annotations, if required
+  # https://azimuth-config.readthedocs.io/en/latest/configuration/13-access-control/#annotations
+  # annotations:
+  #   acl.azimuth.stackhpc.com/allow-list: ""
+  #   acl.azimuth.stackhpc.com/deny-list: ""
+  #   acl.azimuth.stackhpc.com/allow-regex: ""
+  #   acl.azimuth.stackhpc.com/deny-regex: ""
+spec:
+  # The chart and versions to use
+  chart:
+    repo: https://azimuth-cloud.github.io/azimuth-charts
+    name: argocd-azimuth
+  #   The range of versions to consider
+  #   Here, we consider all stable versions (the default)
+  versionRange: ">=0.0.0"
+
+  # Synchronisation options
+  #   The number of versions to make available
+  keepVersions: 5
+  #   The frequency at which to check for new versions
+  syncFrequency: 86400
+
+  # Default values for the deployment, applied on top of the chart defaults
+  defaultValues: {}
