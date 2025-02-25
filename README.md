@@ -82,32 +82,6 @@ Then
 [provision your Azimuth instance](https://azimuth-config.readthedocs.io/en/latest/deployment/)
 as usual.
 
-### Exporting the sealed secrets certificate
-
-Because an Azimuth installation does not support directly connecting to the Kubernetes API
-for the Azimuth cluster, in either single-node or HA configurations, we must export the
-certificate that is used for sealing secrets so that we can use it later.
-
-To do this, run the following commands in your **Azimuth config directory**:
-
-```sh
-# Activate your apps-only environment
-source ./bin/activate my-env
-
-# Connect to the Azimuth Kubernetes cluster via a SOCKS proxy
-eval $(./bin/kube-connect)
-
-# Extract the certificate to a file
-kubeseal \
-  --fetch-cert \
-  --controller-namespace sealed-secrets-system \
-  --controller-name sealed-secrets \
-  > /path/to/cert
-
-# Shut down the Kubernetes connection
-./bin/kube-connect --terminate
-```
-
 ## Fork/copy this repository
 
 First, create a new blank repository in GitHub (or GitLab, etc.) to get a remote URL.
@@ -154,14 +128,37 @@ Update the namespace in the following places to reflect the tenancy name:
 > [!WARNING]
 > It is important that the namespace matches in both these places.
 
-Finally, add the kubeconfig for the tenancy to `kubeconfig-secret.yaml` and seal it using the
-certificate we obtained earlier:
+Finally, add the kubeconfig for the tenancy to `kubeconfig-secret.yaml` and seal it.
+
+To seal the secret, we must connect to the Azimuth Kubernetes cluster. Azimuth supports doing
+this by using the seed node as a SOCKS proxy.
+
+First, run the following in your Azimuth configuration repository:
+
+```sh
+# Activate your apps-only environment
+source ./bin/activate my-env
+
+# Start the SOCKS proxy and generate the local kubeconfig file
+./bin/kube-connect
+```
+
+The output of the `kube-connect` command is a path to a `KUBECONFIG` file that can be used to
+connect to the cluster.
+
+We can then use this in a `kubeseal` command to seal the kubeconfig secret:
 
 ```sh
 kubeseal \
-  --cert /path/to/cert \
+  --kubeconfig /path/to/kubeconfig \
   --secret-file ./tenancies/${TENANCY}/kubeconfig-secret.yaml \
   --sealed-secret-file ./tenancies/${TENANCY}/kubeconfig-secret-sealed.yaml
+```
+
+The SOCKS proxy can then be closed down:
+
+```sh
+./bin/kube-connect --terminate
 ```
 
 > [!CAUTION]
