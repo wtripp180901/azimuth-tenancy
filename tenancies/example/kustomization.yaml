@@ -2,6 +2,15 @@
 
 resources:
   - ./namespace.yaml
-  # We reference the sealed secret here
-  # The unsealed secret should be ignored by git
-  - ./kubeconfig-secret-sealed.yaml
+
+  # Uncomment one of the following, depending on how Azimuth is configured
+  # We reference the sealed secrets here
+  # The unsealed secrets should be ignored by git
+
+  # The application credential to use to access OpenStack
+  # - ./appcred-secret-sealed.yaml
+
+  # OR
+
+  # The kubeconfig to use to deploy apps when in apps-only mode
+  # - ./kubeconfig-secret-sealed.yaml

@@ -1,2 +1,2 @@
-tenancies/*/kubeconfig-secret.yaml
-!tenancies/example/kubeconfig-secret.yaml
+tenancies/*/*-secret.yaml
+!tenancies/example/*-secret.yaml
