@@ -12,7 +12,7 @@ configuration on the Azimuth cluster. Familiarity with these tools is assumed, a
 familiarity with the configuration and deployment of Azimuth.
 
 > [!WARNING]
-> OIDC authentication and "apps-only" mode are experimental and not fully tested.
+> OIDC authentication in Azimuth is currently in technology preview.
 
 ## Contents  <!-- omit in toc -->
 
@@ -180,6 +180,9 @@ azimuth_authentication_type: oidc
 Azimuth to use.
 
 ## Apps-only mode
+
+> [!WARNING]
+> "apps-only" mode in Azimuth is currently in technology preview.
 
 When in "apps-only" mode, all functionality in Azimuth that depends on the availability of
 a cloud is disabled (e.g. Cluster-as-a-Service, Kubernetes clusters via Cluster API).
