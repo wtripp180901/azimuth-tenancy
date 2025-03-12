@@ -3,7 +3,7 @@
 This repository provides a base for configuring the tenancies for an Azimuth instance that is
 using [OpenID Connect (OIDC)](https://openid.net/) authentication. This includes support for a
 new "apps-only" mode that allows Azimuth to deploy Kubernetes applications onto pre-existing
-clusters.
+clusters rather than targeting an OpenStack cloud.
 
 The repository uses [kustomize](https://kustomize.io/) to build the configuration and assumes
 that [Flux CD](https://fluxcd.io/) with
