@@ -41,13 +41,14 @@ This document assumes that following tools are available:
 
 ## Set up Azimuth configuration repository
 
-The changes for both OIDC authentication and "apps-only" mode currently reside in a branch -
+The changes for both OIDC authentication and "apps-only" mode, as well as the installation of
+the Flux CD and sealed secrets controllers on the Azimuth cluster, currently reside in a branch -
 [feat/standalone-apps](https://github.com/azimuth-cloud/azimuth-config/tree/feat/standalone-apps) -
 which you will need to merge in to your Azimuth configuration repository.
 
 First,
 [create an azimuth-config repository](https://azimuth-config.readthedocs.io/en/latest/repository/)
-for your Azimuth instance as noraml.
+for your Azimuth instance as normal.
 
 Once you have a repository with a `main` branch set up, merge in the changes from the
 `feat/standalone-apps` branch:
@@ -151,6 +152,9 @@ This creates a [Kustomization](https://fluxcd.io/flux/components/kustomize/kusto
 in the `flux-system` namespace that will deploy the root `kustomization.yaml` from your
 repository, hence deploying all your tenancy namespaces.
 
+> [!WARNING]
+> Do **not** do this until you have updated your tenancy configuration as below.
+
 ## OpenID Connect (OIDC) authentication
 
 When Azimuth is deployed with OIDC authentication, users authenticate with Azimuth using a
@@ -167,6 +171,11 @@ in the Keycloak realm.
 
 For more information, see
 [this documentation page](https://azimuth-config.readthedocs.io/en/feat-identity-diagrams/architecture/identity/).
+
+> [!TIP]
+> To manage users and groups for Azimuth, sign in to the Azimuth-managed Keycloak using the
+> username `admin` and the configured admin password and create the required users, groups, etc.
+> in the `azimuth-users` realm.
 
 ### Configuring Azimuth
 
@@ -241,13 +250,13 @@ To add a new tenancy, first copy [tenancies/example](./tenancies/example) and gi
 an appropriate name.
 
 Update the `resources` in [tenancies/kustomization.yaml](./tenancies/kustomization.yaml) to
-include the new directory.
+include the new directory (and remove the example if still present!).
 
 Update `namespace.yaml` as directed by the comments in the file.
 
 Update/delete the credentials secrets as appropriate (i.e. depending on whether you are targeting
 an OpenStack cloud or using "apps-only" mode), and update the `kustomization.yaml` for the tenancy
-to reflect which should being used.
+to select the correct sealed credential secret.
 
 ### OpenStack credential
 
@@ -259,7 +268,7 @@ as described above.
 
 ### Kubernetes credential
 
-If Azimuth is in "apps-only" mode, you should already have a `kubeconfig` for the tenancy.
+If Azimuth is in "apps-only" mode, you need to obtain a `kubeconfig` for the tenancy to use.
 
 Update `kubeconfig-secret.yaml` as directed by the comments in the file before sealing the secret
 as described above.
