@@ -1,0 +1,14 @@
+---
+apiVersion: group.keycloak.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  name: {{ name }}
+spec:
+  deletionPolicy: Delete
+  forProvider:
+    # Name of Keycloak group to create for the tenancy. Must be equal to the tenant.azimuth-cloud.io/oidc-group
+    # annotation in namespace.yaml, but without the leading slash
+    name: {{ name }}
+    realmId: azimuth-users
+  providerConfigRef:
+    name: keycloak-config
