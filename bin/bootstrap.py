@@ -10,6 +10,9 @@ parser.add_argument("--name",required=True)
 parser.add_argument("--azimuth-kubeconfig",required=True)
 args = parser.parse_args()
 
+git_remote = subprocess.run(["git", "config", "--get", "remote.origin.url"], stdout=subprocess.PIPE)
+
+
 base_dir = os.path.dirname(__file__)
 templates_dir = os.path.join(base_dir, "templates")
 tenancies_dir = os.path.join(base_dir, "../tenancies")
@@ -55,4 +58,13 @@ subprocess.run(["kubeseal",
                 "--secret-file", "./tenancies/"+args.name+"/"+cred_secret_file,
                 "--sealed-secret-file", "./tenancies/"+args.name+"/"+jinja_vars["cred_sealed_secret_file"]])
 
-print("Created tenancy \""+args.name+".\" Commit and push to remote repo to apply to cluster.")
+print("Created tenancy \""+args.name)
+print("Commit and push to ("+git_remote+")? [y/n]")
+resp = input()
+if resp == "y":
+   subprocess.run(["git","add","./templates"])
+   subprocess.run(["git","commit","-m","Added "+args.name+" tenancy"])
+   subprocess.run(["git", "push"])
+
+subprocess.run(["flux", "create", "source", "git", "tenant-config", "--url=ssh://"+git_remote, "--branch=main"])
+subprocess.run(["flux", "create", "kustomization", "tenant-config", "--source=GitRepository/tenant-config", "--prune=true"])

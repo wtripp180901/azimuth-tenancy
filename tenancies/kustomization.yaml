@@ -2,4 +2,3 @@
 
 # Add each tenancy that you want to enable here
 resources:
-  - ./example
