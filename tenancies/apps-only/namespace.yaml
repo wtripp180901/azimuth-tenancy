@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  # This MUST match the namespace in the sealed secrets
+  # Make sure to prefix the namespace with az- as expected by Azimuth
+  name: az-apps-only
+  labels:
+    # This label specifies the ID of the tenancy that this namespace is for
+    # Azimuth uses the presence of this label to discover tenancy namespaces
+    tenant.azimuth-cloud.io/id: apps-only
+  annotations:
+    # This annotation specifies the OIDC group that is required to access this tenancy
+    # Note that Keycloak groups have a leading forward slash
+    tenant.azimuth-cloud.io/oidc-group: /apps-only

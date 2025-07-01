@@ -1,5 +1,0 @@
----
-
-resources:
-  - ./namespace.yaml
-  - ./appcred-secret-sealed.yaml
