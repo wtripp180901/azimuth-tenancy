@@ -10,8 +10,8 @@ parser.add_argument("--name",required=True)
 parser.add_argument("--azimuth-kubeconfig",required=True)
 args = parser.parse_args()
 
-git_remote = subprocess.run(["git", "config", "--get", "remote.origin.url"], stdout=subprocess.PIPE)
-
+git_remote_raw = subprocess.run(["git", "config", "--get", "remote.origin.url"], stdout=subprocess.PIPE)
+git_remote = git_remote_raw.stdout.decode("utf-8").rstrip().replace(":","/")
 
 base_dir = os.path.dirname(__file__)
 templates_dir = os.path.join(base_dir, "templates")
@@ -62,7 +62,7 @@ print("Created tenancy \""+args.name)
 print("Commit and push to ("+git_remote+")? [y/n]")
 resp = input()
 if resp == "y":
-   subprocess.run(["git","add","./templates"])
+   subprocess.run(["git","add","./tenancies"])
    subprocess.run(["git","commit","-m","Added "+args.name+" tenancy"])
    subprocess.run(["git", "push"])
 
