@@ -2,7 +2,7 @@
 apiVersion: user.keycloak.crossplane.io/v1alpha1
 kind: User
 metadata:
-  name: {{ oidc_admin_username }}
+  name: {{ name }}-admin
 spec:
   forProvider:
     realmId: azimuth-users
@@ -14,7 +14,7 @@ spec:
 apiVersion: user.keycloak.crossplane.io/v1alpha1
 kind: Groups
 metadata:
-  name: {{ oidc_admin_username }}-group-mapping
+  name: {{ name }}-admin-group-mapping
 spec:
   forProvider:
     realmId: azimuth-users
