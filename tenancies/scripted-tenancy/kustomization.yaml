@@ -4,3 +4,5 @@ resources:
   - namespace.yaml
   - appcred-secret-sealed.yaml
   - group.yaml
+  - flow.yaml
+  - user.yaml
