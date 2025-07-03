@@ -19,7 +19,7 @@ spec:
   forProvider:
     realmId: azimuth-users
     userIdRef:
-      name: wtripp180901
+      name: scripted-tenancy-admin
     groupIdsRefs:
       - name: scripted-tenancy
   providerConfigRef:
