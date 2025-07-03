@@ -1,0 +1,26 @@
+---
+apiVersion: user.keycloak.crossplane.io/v1alpha1
+kind: User
+metadata:
+  name: wtripp180901
+spec:
+  forProvider:
+    realmId: azimuth-users
+    username: wtripp180901
+    email: will.tripp@btinternet.com
+  providerConfigRef:
+    name: keycloak-config
+---
+apiVersion: user.keycloak.crossplane.io/v1alpha1
+kind: Groups
+metadata:
+  name: wtripp180901-group-mapping
+spec:
+  forProvider:
+    realmId: azimuth-users
+    userIdRef:
+      name: wtripp180901
+    groupIdsRefs:
+      - name: scripted-tenancy
+  providerConfigRef:
+    name: keycloak-config
