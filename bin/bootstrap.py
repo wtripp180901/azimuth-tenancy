@@ -9,6 +9,8 @@ parser.add_argument("--cred-file",required=True)
 parser.add_argument("--name",required=True)
 parser.add_argument("--azimuth-kubeconfig",required=True)
 parser.add_argument("--git-remote-url",required=True)
+parser.add_argument("--oidc-admin-username",required=True)
+parser.add_argument("--oidc-admin-email",required=True)
 args = parser.parse_args()
 
 base_dir = os.path.dirname(__file__)
@@ -20,8 +22,9 @@ with open(args.cred_file, 'r') as file:
 
 jinja_vars = dict(
     name=args.name,
-    tenancyType=args.type,
-    cred_data=cred_data
+    cred_data=cred_data,
+    oidc_admin_username=args.oidc_admin_username,
+    oidc_admin_email=args.oidc_admin_email
 )
 
 environment = jinja2.Environment(loader=jinja2.FileSystemLoader(templates_dir))
