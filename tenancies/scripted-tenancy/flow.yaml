@@ -2,10 +2,10 @@
 apiVersion: authenticationflow.keycloak.crossplane.io/v1alpha1
 kind: Flow
 metadata:
-  name: map-users-flow
+  name: map-users-flow-scripted-tenancy
 spec:
   forProvider:
-    alias: map-users-flow
+    alias: map-users-flow-scripted-tenancy
     realmId: az-scripted-tenancy
   providerConfigRef:
     name: keycloak-config
@@ -13,10 +13,10 @@ spec:
 apiVersion: authenticationflow.keycloak.crossplane.io/v1alpha1
 kind: Execution
 metadata:
-  name: existing-broker-user-execution
+  name: existing-broker-user-execution-scripted-tenancy
 spec:
   forProvider:
-    parentFlowAlias: map-users-flow
+    parentFlowAlias: map-users-flow-scripted-tenancy
     realmId: az-scripted-tenancy
     authenticator: idp-detect-existing-broker-user
     requirement: REQUIRED
@@ -27,10 +27,10 @@ spec:
 apiVersion: authenticationflow.keycloak.crossplane.io/v1alpha1
 kind: Execution
 metadata:
-  name: autolink-execution
+  name: autolink-execution-scripted-tenancy
 spec:
   forProvider:
-    parentFlowAlias: map-users-flow
+    parentFlowAlias: map-users-flow-scripted-tenancy
     realmId: az-scripted-tenancy
     authenticator: idp-auto-link
     requirement: REQUIRED

@@ -2,7 +2,7 @@
 apiVersion: user.keycloak.crossplane.io/v1alpha1
 kind: User
 metadata:
-  name: wtripp180901
+  name: scripted-tenancy-admin
 spec:
   forProvider:
     realmId: azimuth-users
@@ -14,7 +14,7 @@ spec:
 apiVersion: user.keycloak.crossplane.io/v1alpha1
 kind: Groups
 metadata:
-  name: wtripp180901-group-mapping
+  name: scripted-tenancy-admin-group-mapping
 spec:
   forProvider:
     realmId: azimuth-users
