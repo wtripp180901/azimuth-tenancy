@@ -1,0 +1,39 @@
+---
+apiVersion: authenticationflow.keycloak.crossplane.io/v1alpha1
+kind: Flow
+metadata:
+  name: map-users-flow
+spec:
+  forProvider:
+    alias: map-users-flow
+    realmId: az-{{ name }}
+  providerConfigRef:
+    name: keycloak-config
+---
+apiVersion: authenticationflow.keycloak.crossplane.io/v1alpha1
+kind: Execution
+metadata:
+  name: existing-broker-user-execution
+spec:
+  forProvider:
+    parentFlowAlias: map-users-flow
+    realmId: az-{{ name }}
+    authenticator: idp-detect-existing-broker-user
+    requirement: REQUIRED
+    priority: 0
+  providerConfigRef:
+    name: keycloak-config
+---
+apiVersion: authenticationflow.keycloak.crossplane.io/v1alpha1
+kind: Execution
+metadata:
+  name: autolink-execution
+spec:
+  forProvider:
+    parentFlowAlias: map-users-flow
+    realmId: az-{{ name }}
+    authenticator: idp-auto-link
+    requirement: REQUIRED
+    priority: 1
+  providerConfigRef:
+    name: keycloak-config
